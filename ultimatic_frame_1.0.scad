@@ -1,8 +1,8 @@
 // ultimatic by Aleksandr Petrov
 $fn = 40;
 // size of frame
-UM_X = 250;
-UM_Y = 270;
+UM_X = 260;
+UM_Y = 280;
 UM_Z = 330;
 UM_SIZE = [UM_X, UM_Y, UM_Z];
 // 6 mm plywood frame walls width
