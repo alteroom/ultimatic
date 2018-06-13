@@ -20,13 +20,10 @@ module UMSleeveHolder(){
 
 module UMSleeveHull(){
     scale([1,1,1.01]) cylinder(h = SLEEVE_L, d = SLEEVE_D1 + 2*SLEEVE_WALL, center=true);
-    //cylinder(h = SLEEVE_L*2, d = SLEEVE_D1, center=true);
 }
 
 module UMHotend(){
-    
     union(){
-    
         translate([0,7,21]) rotate ([0,90,0]) scale([1,1,1.2]) UMSleeveHolder();
         translate([10,3,6]) rotate ([90,0,0]) UMSleeveHolder();
         
@@ -52,9 +49,7 @@ module UMHotend(){
             translate([7, 7, -4]) rotate([90,0,0]) scale([1,1,1.01]) cylinder(h = 12, d = 3, center=true);
             translate([0,7,21]) rotate ([0,90,0]) scale([1,1,1.2]) UMSleeveHull();
             translate([10,3,6]) rotate ([90,0,0]) UMSleeveHull(); 
-            
         }
-      
     }
 }
 
@@ -83,3 +78,25 @@ difference(){
     UMHotend();
     translate([-10,-6.01,-27]) UMCR10();
 }
+
+module UMCoolingPart(){
+    difference (){
+        union(){
+            translate ([0, 0, 0.5]) cube([80, 30, 1], center = true);
+            translate ([-19, -15, 0.5]) cube([1, 30, 20], center = false);    
+        }    
+        translate ([0, 0, 0.5]) cylinder(h = 2, d=20, center = true);
+    }
+    
+}
+//translate ([0, 0, -48]) UMCoolingPart();
+module UME3DFan(){
+    intersection(){
+        #import("e3d fan.stl");        
+        translate ([-15, 0, 19.5]) cube([40, 40, 40]);
+    }
+    //% translate ([-15, 0, 19.5]) cube([40, 40, 40]);
+}
+
+//UME3DFan();
+
