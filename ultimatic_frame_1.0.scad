@@ -1,12 +1,12 @@
 // ultimatic by Aleksandr Petrov
 // hotend
-use <hotend_cr10.scad>; 
+use <hotend_cr10_slim.scad>; 
 $fn = 40;
 // size of frame
 // print area
 UM_PRINT_AREA = [150, 150, 150];
 // non print area
-UM_NON_PRINT_AREA = [110, 130, 180];
+UM_NON_PRINT_AREA = [100, 120, 180];
 
 UM_SIZE = UM_PRINT_AREA + UM_NON_PRINT_AREA;
 UM_X = UM_SIZE[0];
@@ -14,8 +14,8 @@ UM_Y = UM_SIZE[1];
 UM_Z = UM_SIZE[2];
 echo(UM_SIZE);
 
-// 6 mm plywood frame walls width
-UM_WALL = 6;
+// 4 mm plywood frame walls width
+UM_WALL = 4;
 // Frame IDs
 UM_FRAME_FRONT = 0;
 UM_FRAME_BACK = 1;
@@ -57,9 +57,9 @@ UM_ROD_MAX = 20;
 
 // 24 + 18 + 14 = 24 + 32 = 56 + 32 = 88 + 150 = 238 + 22
 
-UM_LEFT_ROD_OFFSET = [24, UM_Z - UM_WALL - UM_ROD_MAX*1.5, 0];
-UM_RIGHT_ROD_OFFSET = [UM_X - 18, UM_Z - UM_WALL - UM_ROD_MAX*1.5, 0];
-UM_BACK_ROD_OFFSET = [40, UM_Z - UM_WALL - UM_ROD_MAX*0.5, 0];
+UM_LEFT_ROD_OFFSET = [UM_WALL+18, UM_Z - UM_WALL - UM_ROD_MAX*1.5, 0];
+UM_RIGHT_ROD_OFFSET = [UM_X - 12-UM_WALL, UM_Z - UM_WALL - UM_ROD_MAX*1.5, 0];
+UM_BACK_ROD_OFFSET = [UM_WALL+30, UM_Z - UM_WALL - UM_ROD_MAX*0.5, 0];
 UM_FRONT_ROD_OFFSET = [UM_Y - UM_WALL - UM_ROD_MAX*0.5, UM_Z - UM_WALL - UM_ROD_MAX*0.5, 0];
 // screw
 UM_SREW_GAP = 3;
@@ -81,10 +81,12 @@ UM_MOTOR_MODIFIER = "motor";
 // [name, type, frame_id, offset, size, size2]
 UM_MODIFIERS = [
     // windows
-    ["front window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_FRONT, [25, 90, 0], [UM_X-50, UM_Z-130, UM_WALL, 20]],
-    ["top window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_TOP, [25, 45, 0], [UM_X-50, UM_Y-70, UM_WALL, 10]],
-    ["left window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_LEFT, [50, 90, 0], [UM_Y-75, UM_Z-130, UM_WALL, 20]],
-    ["right window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_RIGHT, [50, 90, 0], [UM_Y-75, UM_Z-130, UM_WALL, 20]],
+    ["front window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_FRONT, [20, 90, 0], [UM_X-40, UM_Z-130, UM_WALL, 20]],
+    ["back window", UM_RECT_MODIFIER, UM_FRAME_BACK, [UM_X*0.5-UM_PRINT_AREA[0]*0.5, 60, 0], [UM_PRINT_AREA[0], UM_Z-100-UM_WALL, UM_WALL]],
+    ["back window motor", UM_RECT_MODIFIER, UM_FRAME_BACK, [UM_X*0.5-UM_MOTOR_SIZE*0.5, 60-UM_MOTOR_SIZE+UM_WALL, 0], [UM_MOTOR_SIZE, UM_MOTOR_SIZE+20, UM_WALL]],
+    ["top window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_TOP, [20, 45, 0], [UM_X-40, UM_Y-70, UM_WALL, 10]],
+    ["left window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_LEFT, [40+UM_WALL, 90, 0], [UM_Y-65-UM_WALL, UM_Z-130, UM_WALL, 20]],
+    ["right window", UM_RECT_CORNERS_MODIFIER, UM_FRAME_RIGHT, [40+UM_WALL, 90, 0], [UM_Y-65-UM_WALL, UM_Z-130, UM_WALL, 20]],
     // rods
     ["left front rod gap", UM_CIRCLE_MODIFIER, UM_FRAME_FRONT, UM_LEFT_ROD_OFFSET, UM_ROD_GAP],
     ["left back rod gap", UM_CIRCLE_MODIFIER, UM_FRAME_BACK, UM_LEFT_ROD_OFFSET, UM_ROD_GAP],
@@ -95,11 +97,11 @@ UM_MODIFIERS = [
     ["back left rod gap", UM_CIRCLE_MODIFIER, UM_FRAME_LEFT, UM_BACK_ROD_OFFSET, UM_ROD_GAP],
     ["back right rod gap", UM_CIRCLE_MODIFIER, UM_FRAME_RIGHT, UM_BACK_ROD_OFFSET, UM_ROD_GAP],
     // Z-bed RODS
-    ["Z motor gap", UM_MOTOR_MODIFIER, UM_FRAME_BOTTOM, [UM_X*0.5, UM_WALL+UM_MOTOR_SIZE*0.5, 0], [0,0,0]],
-    ["Z left rod", UM_CIRCLE_MODIFIER, UM_FRAME_BOTTOM, [UM_X*0.5-UM_PRINT_AREA[0]*0.5+20, UM_WALL+UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
-    ["Z left rod", UM_CIRCLE_MODIFIER, UM_FRAME_TOP, [UM_X*0.5-UM_PRINT_AREA[0]*0.5+20, UM_WALL+UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
-    ["Z right rod", UM_CIRCLE_MODIFIER, UM_FRAME_BOTTOM, [UM_X*0.5+UM_PRINT_AREA[0]*0.5-20, UM_WALL+UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
-    ["Z right rod", UM_CIRCLE_MODIFIER, UM_FRAME_TOP, [UM_X*0.5+UM_PRINT_AREA[0]*0.5-20, UM_WALL+UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
+    ["Z motor gap", UM_MOTOR_MODIFIER, UM_FRAME_BOTTOM, [UM_X*0.5, UM_MOTOR_SIZE*0.5, 0], [0,0,0]],
+    ["Z left rod", UM_CIRCLE_MODIFIER, UM_FRAME_BOTTOM, [UM_X*0.5-UM_PRINT_AREA[0]*0.5+20, UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
+    ["Z left rod", UM_CIRCLE_MODIFIER, UM_FRAME_TOP, [UM_X*0.5-UM_PRINT_AREA[0]*0.5+20, UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
+    ["Z right rod", UM_CIRCLE_MODIFIER, UM_FRAME_BOTTOM, [UM_X*0.5+UM_PRINT_AREA[0]*0.5-20, UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
+    ["Z right rod", UM_CIRCLE_MODIFIER, UM_FRAME_TOP, [UM_X*0.5+UM_PRINT_AREA[0]*0.5-20, UM_Z_ROD_OFFSET, 0], UM_Z_ROD_GAP],
     // Y Motor
     ["Y motor gap", UM_MOTOR_MODIFIER, UM_FRAME_LEFT, [UM_WALL+UM_MOTOR_SIZE*0.5, UM_BACK_ROD_OFFSET[1]-UM_Y_MOTOR_OFFSET, 0], [0,4,0]],
     // X Motor
@@ -108,7 +110,7 @@ UM_MODIFIERS = [
     ["E motor gap", UM_MOTOR_MODIFIER, UM_FRAME_RIGHT, [UM_WALL+UM_MOTOR_SIZE*0.5, UM_RIGHT_ROD_OFFSET[1]-130, 0], [0,0,0]],
     // basement
     ["front gap", UM_RECT_CORNERS_MODIFIER, UM_FRAME_FRONT, [30, -20, 0], [UM_X-60, 30, UM_WALL, 10]],
-    ["back gap", UM_RECT_CORNERS_MODIFIER, UM_FRAME_BACK, [30, -20, 0], [UM_X-60, 30, UM_WALL, 10]],
+    //["back gap", UM_RECT_CORNERS_MODIFIER, UM_FRAME_BACK, [30, -20, 0], [UM_X-60, 30, UM_WALL, 10]],
     ["left gap", UM_RECT_CORNERS_MODIFIER, UM_FRAME_LEFT, [30, -20, 0], [UM_Y-60, 30, UM_WALL, 10]],
     ["right gap", UM_RECT_CORNERS_MODIFIER, UM_FRAME_RIGHT, [30, -20, 0], [UM_Y-60, 30, UM_WALL, 10]]
     
@@ -231,9 +233,9 @@ module UMDrawFrames(){
 }
 
 UMDrawFrames();
-translate([UM_X/2, -UM_Y/2, UM_Z-75]) UMDrawHotend();
+translate([UM_X/2, -UM_Y/2, UM_Z - UM_WALL - UM_ROD_MAX*1.5]) UMDrawHotend();
 
-
+translate([UM_X/2, -UM_Y/2, UM_Z - 90]) cube([UM_PRINT_AREA[0], UM_PRINT_AREA[1], 1], center = true);
 
 
 
