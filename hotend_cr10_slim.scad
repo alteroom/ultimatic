@@ -24,7 +24,7 @@ module UMSleeveHull(){
 
 module UMHotend(){
     union(){
-        translate([0,7,16]) rotate ([0,90,0]) scale([1,1,1]) UMSleeveHolder();
+        translate([0,7,26]) rotate ([0,90,0]) scale([1,1,1]) UMSleeveHolder();
         translate([10,3,6]) rotate ([90,0,0]) UMSleeveHolder();
         
         translate([-10,9,-17]) cube([2,4,10]);
@@ -47,7 +47,7 @@ module UMHotend(){
             translate([-6,0,0]) cube([12,14,16]);
             translate([-7, 7, -4]) rotate([90,0,0]) scale([1,1,1.01]) cylinder(h = 12, d = 3, center=true);
             translate([7, 7, -4]) rotate([90,0,0]) scale([1,1,1.01]) cylinder(h = 12, d = 3, center=true);
-            translate([0,7,16]) rotate ([0,90,0]) scale([1,1,1]) UMSleeveHull();
+            translate([0,7,26]) rotate ([0,90,0]) scale([1,1,1]) UMSleeveHull();
             translate([10,3,6]) rotate ([90,0,0]) UMSleeveHull(); 
         }
     }
